@@ -1,0 +1,157 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Zalando Sans Expanded", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: radial-gradient(rgba(8, 47, 97) 30%, rgba(1, 11, 37) 100%);
+}
+
+nav {
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    gap: 3rem;
+}
+
+nav ul li a {
+    text-decoration: none;
+    padding: 0.7rem 4rem;
+    color: white;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.intro{
+    padding-left: 9rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.intro-text {
+    flex: 1;
+}
+
+.intro h1{
+    font-size: 2rem;
+}
+
+.intro p{
+    font-size: 1.5rem;
+        color: rgb(177, 177, 177);
+}
+
+.sage {
+    width: 10rem;
+    pointer-events: auto; 
+    padding-right: 10px;
+    margin-right: 2rem;
+}
+
+.link-card {
+    text-decoration: none;
+    color: inherit;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);;
+    column-gap: 10px; 
+    row-gap: 60px; 
+    align-items:stretch;
+}
+
+.feature-card {
+    background: white;
+    border-radius: 10px;
+    padding: 12px 12px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 150px;       
+    width: 100%;          
+
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: 0.2s ease;
+    max-width: 240px;
+    cursor: pointer;
+}
+
+.feature-card i {
+    font-size: 34px;   /* BIG icon */
+    color: #2563eb;
+    margin: 12px 0;
+}
+
+.feature-card h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.feature-card:hover i {
+    color: #1e40af;
+}
+
+.main-container {
+    height: 23rem;
+    border-radius: 30px;
+
+    margin: 3.5rem auto;   /* top/bottom + left/right auto */
+    width: 60%;
+    align-items: center;
+}
+
+.main-container h3 {
+    padding: 2rem;
+    color: #333;
+}
+
+.main-container_pdf_ready {
+    margin: 5rem auto;   /* top/bottom + left/right auto */
+    width: 60%;
+    height: 10rem;
+    align-items: center;
+}
+
+
+.logout-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 6px;
+    background-color: #e53e3e;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+    background-color: #c53030;
+}
+

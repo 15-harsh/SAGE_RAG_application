@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dashboard</title>
+        <link rel="icon" href="static\images\logo.png" type="image/png">
+        <link rel="stylesheet" href="static\upload.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/d8ee8fbd1a.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('logout') }}" class="logout-btn">Logout</a></li>
+            </ul>
+        </nav>
+
+
+
+        <div class="intro">
+            <img src="static/images/logo.png" class="sage">
+            <div class="intro-text">
+                <h1>Hi, I'm SAGE</h1>
+                <p class="subtitle">Let's build our knowledge base together.</p>
+            </div>
+        </div>
+
+
+        <div class="main-container">
+
+            <div class="feature-grid">
+
+                <!-- Upload PDF -->
+                <div class="feature-card upload-card" onclick="openPdfPicker()">
+                    <h4>Upload PDF</h4>
+                    <i class="fa-solid fa-file-pdf"></i>
+                </div>
+
+                <!-- Chat -->
+                <a href="{{ url_for('chat_directly') }}" class="feature-card link-card">
+                    <h4>Chat Directly</h4>
+                    <i class="fa-solid fa-hexagon-nodes"></i>
+                </a>
+
+                <!-- Upload Excel -->
+                <a href="{{ url_for('upload_excell') }}" class="feature-card link-card">
+                    <h4>Upload Excel</h4>
+                    <i class="fa-solid fa-table"></i>
+                </a>
+
+                <!-- Knowledge Base -->
+                <a href="{{ url_for('list_pdfs') }}" class="feature-card link-card">
+                    <h4>Knowledge Base</h4>
+                    <i class="fa-solid fa-database"></i>
+                </a>
+
+                <!-- Global History -->
+                <a href="{{ url_for('global_history') }}" class="feature-card link-card">
+                    <h4>Global History</h4>
+                    <i class="fa-solid fa-book-medical"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+        <form id="pdfUploadForm"
+            method="POST"
+            action="/upload"
+            enctype="multipart/form-data"
+            style="display:none;">
+
+            <input type="file"
+                id="pdfInput"
+                name="filename"
+                accept="application/pdf"
+                required>
+        </form>
+
+        <script>
+            // Run code after page loads
+            document.addEventListener("DOMContentLoaded", function () {
+
+                // Get file input
+                const fileInput = document.getElementById("pdfInput");
+
+                // Get upload form
+                const form = document.getElementById("pdfUploadForm");
+
+                // Open file picker
+                window.openPdfPicker = function () {
+                    fileInput.click();
+                };
+
+                // When file is selected
+                fileInput.addEventListener("change", function () {
+
+                    // If file exists, submit form
+                    if (this.files.length > 0) {
+                        console.log("Submitting form...");
+                        form.submit();
+                    }
+                });
+            });
+        </script>
+
+    </body>
+    
+</html>

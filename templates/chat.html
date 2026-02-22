@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Chat Interface</title>
+        <link rel="icon" href="static\images\logo.png" type="image/png">
+        <link rel="stylesheet" href="static\chat.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/d8ee8fbd1a.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+
+        <nav>
+            <ul>
+                <li>
+                    <div class="chat-header">Chat with your PDF</div>
+                </li>
+                <li><a href="{{ url_for('logout') }}" class="logout-btn">Logout</a></li>
+            </ul>
+        </nav>
+
+    
+        <button id="toggleSidebar" class="toggle-btn">☰ SAGE</button>
+
+        <div class="sidebar" id="sidebar"> 
+
+            <a href="{{ url_for('chat_directly') }}">+ New Chat</a>
+            <a href="{{ url_for('dashboard')}}">Dashboard</a>
+            <a href="{{ url_for('upload_excell')}}">Upload Excel</a>
+            <a href="{{ url_for('global_history')}}">Global History</a>
+
+            <hr>
+
+            <h4>My Chats</h4>
+
+            <div class="chat-session">
+                {% for chat in chat_sessions %}
+
+                    <a href="{{ url_for('chat_directly', session_id=chat.session_id) }}"
+                    class="{% if chat.session_id == active_session %}active-chat{% endif %}">
+
+                        {{ chat.session_name or "Chat " ~ chat.session_id }}
+
+                    </a>
+
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <div class="chat-container">
+
+            <div class="chat-messages" id="chat-messages">
+
+                {% if not messages %}
+
+                    <div class="message bot">
+                        <div class="message-bubble">
+                            Hello! How can I help you today?
+                        </div>
+                    </div>
+
+                {% else %}
+
+                {% for msg in messages %}
+
+                <div class="message {{ 'user' if msg.is_user else 'bot' }}">
+                    
+                    <div class="message-bubble">
+
+                        {% if msg.is_user %}
+                            <span class="question-text-{{ msg.question_id }}">
+                                {{ msg.text }}
+                            </span>
+                        {% else %}
+                            <span class="answer-text-{{ msg.question_id }}">
+                                {{ msg.text }}
+                            </span>
+                        {% endif %}
+
+                        {% if not msg.is_user and msg.is_edited %}
+                            <span class="edited-badge">Edited</span>
+                        {% endif %}
+
+                    </div> 
+
+                </div>    
+                    
+                    {% if not msg.is_user %}
+
+                    <div class="message-wrapper">
+
+                        <div class="message-actions">
+
+                            <button type="button" 
+                                    class="accept-btn {% if msg.accepted %}accepted{% endif %}" 
+                                    id="accept-btn-{{ msg.question_id }}"
+                                    onclick="acceptAnswer({{ msg.question_id }})"
+                                    {% if msg.accepted %}disabled{% endif %}>
+                                {% if msg.accepted %}
+                                ✓ Approved
+                                {% else %}
+                                Approve
+                                {% endif %}
+                            </button>
+                            
+                            <button class="edit-btn" onclick="toggleEdit({{ msg.question_id }})">Edit</button>
+                        
+                        </div>
+
+                        <div id="edit-form-{{ msg.question_id }}" style="display:none;">
+
+                            <textarea id="edit-textarea-{{ msg.question_id }}" class="edit-textarea" required>{{ msg.original_answer }}</textarea>
+
+                            <div>
+                                <button type="button" class="save-btn" onclick="saveEdit({{ msg.question_id }})">Save</button>
+
+                                <button type="button" class="cancel-btn" onclick="toggleEdit({{ msg.question_id }})">Cancel</button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="chat-input-container">
+                <form action="{{ url_for('chat_directly', session_id=active_session) }}" method="POST">
+                    <input autocomplete="off" type="text" name="question" placeholder="Ask me anything..." required autofocus />
+                    <button class="send_button" type="submit"><i class="fa-solid fa-arrow-up"></i></button>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            function toggleEdit(messageId) {
+                const editForm = document.getElementById(`edit-form-${messageId}`);
+                const answerText = document.querySelector(`.answer-text-${messageId}`);
+                
+                if (editForm.style.display === 'none') {
+                    editForm.style.display = 'block';
+                    answerText.style.display = 'none';
+                } else {
+                    editForm.style.display = 'none';
+                    answerText.style.display = 'inline';
+                }
+            }
+
+            function acceptAnswer(questionId) {
+                fetch(`/accept_answer/${questionId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update the button
+                        const btn = document.getElementById(`accept-btn-${questionId}`);
+                        btn.innerHTML = '✓ Accepted';
+                        btn.classList.add('accepted');
+                        btn.disabled = true;
+                    } else {
+                        alert('Failed to accept answer: ' + (data.error || 'Unknown error'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to accept answer. Please try again.');
+                });
+            }
+
+            function saveEdit(questionId) {
+                const newAnswer = document.getElementById(`edit-textarea-${questionId}`).value;
+                
+                if (!newAnswer.trim()) {
+                    alert('Answer cannot be empty');
+                    return;
+                }
+
+                fetch(`/edit_answer/${questionId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        edited_answer: newAnswer,
+                        session_id: "{{ active_session }}"
+                    })
+
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update the displayed answer with new formatting
+                        const answerText = document.querySelector(`.answer-text-${questionId}`);
+
+                        if (!answerText) {
+                            console.error("Answer element not found for", questionId);
+                            return;
+                        }
+
+                        answerText.innerHTML = `Answer:
+                                ${newAnswer}
+
+                                Sources:
+                                ${data.sources}
+
+                                Confidence:
+                                100 %`;
+                        
+                        // Add edited badge if not already present
+                        let badge = document.getElementById(`edited-badge-${questionId}`);
+                        if (!badge) {
+                            badge = document.createElement('span');
+                            badge.className = 'edited-badge';
+                            badge.id = `edited-badge-${questionId}`;
+                            badge.textContent = 'Edited';
+                            answerText.parentNode.insertBefore(badge, answerText.nextSibling);
+                        }
+                        
+                        // Hide edit form and show updated answer
+                        toggleEdit(questionId);
+                    } else {
+                        alert('Failed to save edit: ' + (data.error || 'Unknown error'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to save edit. Please try again.');
+                });
+            }
+        </script>
+
+        <script>
+            window.scrollTo(0, document.body.scrollHeight);
+        </script>
+
+        <script>
+            const toggleBtn = document.getElementById("toggleSidebar");
+            const sidebar = document.getElementById("sidebar");
+
+            toggleBtn.addEventListener("click", function () {
+                sidebar.classList.toggle("hide");
+            });
+        </script>
+
+    </body>
+
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Chat with Excel</title>
+        <link rel="icon" href="static\images\logo.png" type="image/png">
+        <link rel="stylesheet" href="static\excell.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/d8ee8fbd1a.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+
+        <nav>
+            <ul>
+                <li>
+                    <div class="chat-header">Chat with your PDF</div>
+                </li>
+                <li><a href="{{ url_for('logout') }}" class="logout-btn">Logout</a></li>
+            </ul>
+        </nav>
+
+        <button id="toggleSidebar" class="toggle-btn">☰ SAGE</button>
+
+        <div class="sidebar hide" id="sidebar"> 
+
+            <a href="{{ url_for('upload_excell') }}">+ New Chat</a>
+            <a href="{{ url_for('dashboard')}}">Dashboard</a>
+            <a href="{{ url_for('chat_directly')}}">Chat directly</a>
+            <a href="{{ url_for('global_history')}}">Global History</a>
+
+            <hr>
+
+            <h4>My Chats</h4>
+
+            <div class="chat-session">
+
+                {% for chat in chat_sessions %}
+
+                    <a href="{{ url_for('upload_excell', session_id=chat.session_id) }}"
+                        class="{% if chat.session_id == active_session %}active-chat{% endif %}">
+
+                        {{ chat.session_name }}
+
+                    </a>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        <div class="chat-container">
+
+            {% if not history %}
+            <div class="center-wrapper">
+
+                <div class="feature-card upload-card" onclick="openExcelPicker()">
+                    <h4>Upload Excel Questions</h4>
+                    <i class="fa-solid fa-table"></i>
+                </div>
+
+            </div>
+            {% endif %}
+
+            {% if history %}
+            <div class="results-container">
+
+                    <div class="results-header">
+
+                        <div class="results-title">
+                            <i class="fas fa-table"></i> Query Results
+                        </div>
+
+                        <a href="{{ url_for('download_excel', session_id=active_session) }}" class="download-btn">
+                            <i class="fas fa-download"></i> Download Excel
+                        </a>
+
+                    </div>
+
+                <div class="summary-info">
+                    <strong>Total Questions Processed:</strong> {{ history|length }}
+                </div>
+
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Question</th>
+                            <th>Answer</th>
+                            <th>Sources</th>
+                            <th>C.I</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for result in history %}
+                        <tr>
+                            <td class="index-cell">{{ loop.index }}</td>
+
+                            <td class="question-cell">{{ result.question }}</td>
+
+                            <td class="answer-cell" id="answer-{{ result.question_id }}">
+                                {{ result.edited_answer if result.edited_answer else result.answer }}
+                            </td>
+                            
+                            <td class="sources-cell">
+
+                                {% for src in result.sources.split('[') if src.strip() %}
+                                    {{ src.strip() }}<br><br>
+                                {% endfor %}
+
+                            </td>
+
+                            <td class="confidence-cell">
+
+                                {% if result.confidence >= 70 %}
+                                    <span class="confidence-badge confidence-high">
+                                        {{ result.confidence}}%
+                                    </span>
+
+                                {% elif result.confidence >= 40 %}
+                                    <span class="confidence-badge confidence-medium">
+                                        {{ result.confidence }}%
+                                    </span>
+
+                                {% else %}
+                                    <span class="confidence-badge confidence-low">
+                                        {{ result.confidence }}%
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td class="action-cell">
+
+                                <!-- APPROVE BUTTON -->
+                                {% if result.accepted == None %}
+                                <button
+                                    onclick="acceptExcel('{{ result.question_id }}')"
+                                    class="action-btn accept-btn">
+                                    ✔ Approve
+                                </button>
+                                
+                                {% else %}
+                                <span class="accepted-label">✔ Approved</span>
+                                {% endif %}
+
+                                <!-- EDIT BUTTON -->
+                                <button
+                                    type="button"
+                                    onclick="editExcel('{{ result.question_id }}')"
+                                    class="action-btn edit-btn">
+                                    <i class="fa-solid fa-pen"></i> 
+                                </button>
+
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+        </div>
+
+
+        <form id="excelUploadForm"
+            method="POST"
+            action="/upload_excell"
+            enctype="multipart/form-data"
+            style="display:none;">
+
+            <input type="file"
+                id="excelInput"
+                name="excell_file"
+                accept=".xlsx,.xls"
+                required>
+        </form>
+
+
+        <script>
+
+            // Run after page loads
+            document.addEventListener("DOMContentLoaded", function () {
+
+                // Get Excel file input
+                const fileInput = document.getElementById("excelInput");
+
+                // Get Excel upload form
+                const form = document.getElementById("excelUploadForm");
+
+                // Open file picker when called
+                window.openExcelPicker = function () {
+                    fileInput.click();
+                };
+
+                // When file is selected
+                fileInput.addEventListener("change", function () {
+
+                    // If file is chosen, submit form
+                    if (this.files.length > 0) {
+                        form.submit();
+                    }
+
+                });
+
+            });
+
+        </script>
+
+
+        <script>
+
+            // Get sidebar toggle button
+            const toggleBtn = document.getElementById("toggleSidebar");
+
+            // Get sidebar
+            const sidebar = document.getElementById("sidebar");
+
+            // Toggle sidebar on button click
+            toggleBtn.addEventListener("click", function () {
+                sidebar.classList.toggle("hide");
+            });
+
+        </script>
+
+        <script>
+
+            function acceptExcel(questionId){
+
+                // Send request to backend
+                fetch("/excel/accept", {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+
+                    // Send question id
+                    body: "question_id=" + questionId
+                })
+                .then(res => res.json())
+                .then(data => {
+
+                    // If success, reload page
+                    if(data.status === "success"){
+
+                        location.reload(); 
+                    }
+                });
+            }
+
+
+            function editExcel(id){
+
+                // Get answer box
+                const box = document.getElementById("answer-" + id);
+
+                // Stop if already editing
+                if(!box || box.querySelector("textarea")) return;
+
+                // Get old answer
+                const old = box.innerText.trim();
+
+                // Replace with textarea and buttons
+                box.innerHTML = `
+                    <textarea>${old}</textarea><br>
+
+                    <button class="save-btn" onclick="saveEdit(${id})">
+                        Save
+                    </button>
+
+                    <button class="cancel-btn" onclick="cancelEdit(${id}, \`${old}\`)">
+                        Cancel
+                    </button>
+                `;
+            }
+
+
+            // Save edited answer
+            function saveEdit(id){
+
+                // Get answer box
+                const box = document.getElementById("answer-" + id);
+
+                // Get new text
+                const text = box.querySelector("textarea").value.trim();
+
+                if(!text) return alert("Answer cannot be empty!");
+
+                // Send updated answer to backend
+                fetch("/excel/edit", {
+                    method: "POST",
+                    headers: {"Content-Type":"application/x-www-form-urlencoded"},
+                    body: "question_id="+id+"&new_answer="+encodeURIComponent(text)
+                })
+                .then(r=>r.json())
+                .then(d=>{
+
+                    // Update UI if success
+                    if(d.status==="success") box.innerText = text;
+                });
+            }
+
+
+            function cancelEdit(id, old){
+                // Restore old answer
+                document.getElementById("answer-"+id).innerText = old;
+            }
+
+        </script>
+
+    </body>
+
+</html>

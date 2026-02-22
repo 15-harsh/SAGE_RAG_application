@@ -1,0 +1,16 @@
+Flask
+Flask-SQLAlchemy
+Flask-Login
+Flask-WTF
+Flask-Bcrypt
+python-dotenv
+
+langchain
+langchain-community
+langchain-huggingface
+sentence-transformers
+langchain-chroma>=0.1.2
+unstructured openpyxl
+
+
+pyodbc

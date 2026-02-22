@@ -1,0 +1,455 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Zalando Sans Expanded", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #212120;
+}
+
+nav {
+    padding: 1rem;
+    width: 100%;
+    display: flex;
+    position: fixed;
+    top: 0;
+    background: #303131;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    gap: 25rem;
+}
+
+
+nav ul li div {
+    text-decoration: none;
+    margin-left: 35rem;
+    padding: 0.7rem 3rem;
+    color: white;
+    font-weight: 600;
+    transition: color 0.3s ease;  
+    font-size: 1.5rem;  
+}
+
+.logout-btn {
+    font-weight: 600;
+    display: inline-block;
+    margin-top: 5px;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 6px;
+    background-color: #e53e3e;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.chat-container {
+    width: 85rem;
+    margin: 6rem 5rem 6rem 5rem; 
+    color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.results-container {
+    max-width: 85rem;
+    margin: 30px auto;
+    background: #303131;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #667eea;
+}
+
+.results-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #d0d1d1;
+}
+
+.download-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s;
+}
+
+.download-btn:hover {
+    background-color: #45a049;
+}
+
+.summary-info {
+    background-color: #f0f7ff;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #4CAF50;
+    font-size: 14px;
+    color: #555;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    table-layout: fixed;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    line-height: 2;
+}
+
+.results-table thead {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    width: 100%;
+}
+
+.results-table th:nth-child(1) { width: 2%; }
+.results-table th:nth-child(2) { width: 14%; }
+.results-table th:nth-child(3) { width: 48%; }
+.results-table th:nth-child(4) { width: 23%; }
+.results-table th:nth-child(5) { width: 8%; }
+.results-table th:nth-child(6) { width: 10%; }
+
+.results-table th {
+    padding: 15px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.results-table td {
+    padding: 15px;
+    border-bottom: 1px solid #d0d1d1;
+    color: #d0d1d1;
+    vertical-align: top;
+    font-size: 14px;
+}
+
+.question-cell {
+    font-weight: 500;
+    color: #d0d1d1;
+    width: 20%;
+}
+
+.answer-cell {
+    color: #d0d1d1;
+}
+
+.sources-cell {
+    font-size: 12px;
+    color: #d0d1d1;
+}
+
+.confidence-cell {
+    text-align: center;
+}
+
+.confidence-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 550;
+}
+
+.confidence-high {
+    background-color: #7aff6e;
+    color: #000000;
+}
+
+.confidence-medium {
+    background-color: #ffd856;
+    color: #000000;
+}
+
+.confidence-low {
+    background-color: #ff6572;
+    color: #721c24;
+}
+
+.index-cell {
+    font-weight: 600;
+    color: #667eea;
+    text-align: center;
+    width: 5%;
+    font-size: 16px;
+}
+
+.no-results {
+    text-align: center;
+    padding: 40px;
+    color: #999;
+    font-size: 16px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.message.bot .message-bubble > span {
+    white-space: pre-line;  
+}
+
+.sidebar a {
+    background: #212120;
+    color: #d0d1d1;
+    display: flex;
+    text-decoration: none;
+    font-weight: 450;
+    margin-top: 1rem;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 10rem;
+    font-size: 14px;
+    border: none;
+    transition: color 0.5s ease; 
+    transition: background 0.5s ease;  
+}
+
+.sidebar a:hover{
+    background: #d0d1d1;
+    color: #212120;
+    font-weight: 450;
+}
+
+.sidebar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    flex-direction:row;
+    background: #303131;
+    padding-top:3rem;
+    padding-left: 2rem;
+    width: 15rem;
+    height:100%;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+.sidebar.hide {
+    transform: translateX(-100%);
+}
+
+.logo{
+    color: white;
+    padding: 10px;
+    font-weight: 600;
+}
+
+h4{
+    color: #d0d1d1;
+    padding: 10px;
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background-color: #ccc; 
+  margin: 20px 0; 
+}
+
+.chat-session{
+    padding-right: 90px;
+    max-height: 300px;        
+    overflow-y: auto;      
+    overflow-x: hidden; 
+}
+
+.chat-session::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-session::-webkit-scrollbar-track {
+    background: #303131;
+}
+
+.chat-session::-webkit-scrollbar-thumb {
+    background: #d0d1d1;
+    border-radius: 3px;
+}
+
+.chat-session::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+.toggle-btn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1100;
+    background: #303131;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size:20px;
+    font-family: "Zalando Sans Expanded", sans-serif;
+    font-weight: 600;
+    letter-spacing: 5px;
+}
+
+.action-btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.accept-btn {
+    background: #28a745;
+    color: white;
+}
+
+.edit-btn {
+    background: #ffc107;
+    color: black;
+    margin-top: 20px;
+}
+
+.accepted-label {
+    background: #7aff6e;
+    color: black;
+    font-weight:600;
+    font-size: 12px;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+
+.answer-cell textarea {
+    width: 100%;
+    min-height: 14rem;
+    padding: 10px;
+    border: 1px solid #d0d1d1 ;
+    border-radius: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background:#303131;
+    color: #d0d1d1;
+    font-size: 14px;
+    margin-bottom: 1rem;
+}
+
+.answer-cell textarea:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 4px rgba(76, 175, 80, 0.4);
+}
+
+.save-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    margin-top: 5px;
+    margin-right: 6px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.save-btn:hover {
+    background: #218838;
+}
+
+.cancel-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    margin-top: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.cancel-btn:hover {
+    background: #c82333;
+}
+
+.feature-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgb(79, 131, 241, 0.5);
+}
+
+.feature-card i {
+    font-size: 60px;   
+    color: #2563eb;
+    margin: 12px 0;
+}
+
+.feature-card:hover i {
+    color: #1e40af;
+}
+
+.feature-card h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    margin-top: 15px;
+    margin-right: 10px;
+    text-align: center;
+    color: #000000;
+}
+
+.feature-card {
+    background: #F0E7D5;
+    border-radius: 10px;
+    padding: 12px 12px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 200px;      
+    width: 100%;         
+
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: 0.2s ease;
+    max-width: 300px;
+    cursor: pointer
+}
+
+.center-wrapper {
+    width: 100%;
+    height: 100%;
+    margin-top: 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

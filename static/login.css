@@ -1,0 +1,66 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Zalando Sans Expanded", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(#082f61 30%, rgba(1, 11, 37) 100%);
+}
+
+.login-container {
+    background: #ffffff;
+    padding: 30px 40px;
+    width: 400px;
+    border-radius: 10px;
+    box-shadow: 20px 20px 10px rgba(1, 11, 37, 0.5);
+}
+
+.login-container h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    margin-bottom: 15px;
+    padding: 10px;
+    font-family:"Zalando Sans Expanded"; 
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+input:focus {
+    border-color: #667eea;
+}
+
+.signup-link, .login-link {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.signup-link a, .login-link a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.signup-link a:hover, .login-link a:hover {
+    text-decoration: underline;
+}

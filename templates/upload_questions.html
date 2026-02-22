@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dashboard</title>
+        <link rel="icon" href="static\images\logo.png" type="image/png">
+        <link rel="stylesheet" href="static\upload.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/d8ee8fbd1a.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('logout') }}" class="logout-btn">Logout</a></li>
+            </ul>
+        </nav>
+
+
+
+        <div class="intro">
+            <img src="static/images/logo.png" class="sage">
+            <div class="intro-text">
+                <h1>SAGE</h1>
+                <br>
+                <p class="subtitle">PDF is ready to interact with!</p>
+            </div>
+        </div>
+
+
+        <div class="main-container_pdf_ready">
+
+            <div class="feature-grid">
+
+                <!-- Chat -->
+                <a href="{{ url_for('chat_directly') }}" class="feature-card link-card">
+                    <h4>Chat Directly</h4>
+                    <i class="fa-solid fa-hexagon-nodes"></i>
+                </a>
+
+                <!-- Upload Excel -->
+                <a href="{{ url_for('upload_excell') }}" class="feature-card link-card">
+                    <h4>Upload Excel</h4>
+                    <i class="fa-solid fa-table"></i>
+                </a>
+
+                <!-- Knowledge Base -->
+                <a href="{{ url_for('list_pdfs') }}" class="feature-card link-card">
+                    <h4>Knowledge Base</h4>
+                    <i class="fa-solid fa-database"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+    </body>
+    
+</html>

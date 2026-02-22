@@ -1,0 +1,33 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+.env/
+.venv/
+
+# Vector DB
+vector_db/
+
+# Uploads & data
+chroma_cache/
+PDF_Datastore/
+EXCELL/
+SQL Queries/
+
+# Model files (GGUF / large models)
+models/
+*.gguf
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

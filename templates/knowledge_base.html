@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Knowledge Base</title>
+        <link rel="icon" href="static\images\logo.png" type="image/png">
+        <link rel="stylesheet" href="static\knowledge_base.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/d8ee8fbd1a.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+        
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('dashboard') }}" class="normal-btn">Dashboard</a></li>
+                <li><a href="{{ url_for('chat_directly') }}" class="normal-btn">Chat directly</a></li>
+                <li><a href="{{ url_for('upload_excell') }}" class="normal-btn">Upload Excel</a></li>
+                <li><a href="{{ url_for('global_history') }}" class="normal-btn">Global History</a></li>
+                <li><a href="{{ url_for('logout') }}" class="logout-btn">Logout</a></li>
+            </ul>
+        </nav>
+
+        <h2 class="header">Available PDF Files</h2>
+
+        <div class="home-container">
+
+            {% if pdfs %}
+
+            <div class="search-container">
+
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search PDF..."
+                    onkeyup="searchPDF()"
+                    class="search-box"
+                >
+
+            </div>
+
+            <table class="pdf-table" id="pdfTable">
+
+                <thead>
+                    <tr>
+                        <th>PDF Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for pdf in pdfs %}
+                    <tr>
+                        <td>{{ pdf }}</td>
+
+                        <td>
+                            <a href="/pdfs/{{ pdf }}" target="_blank" class="open-btn">
+                                Open
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+
+            {% else %}
+                <p>No PDF files found.</p>
+            {% endif %}
+
+        </div>
+
+        <script>
+            // Clean text for better matching
+            function cleanText(text) {
+                return text
+                    .toLowerCase()                
+                    .replace(/[^a-z0-9]/g, "");    
+            }
+
+            function searchPDF() {
+
+                let input = document.getElementById("searchInput");
+
+                let filter = cleanText(input.value);
+
+                // Get table
+                let table = document.getElementById("pdfTable");
+
+                // Get all table rows
+                let rows = table.getElementsByTagName("tr");
+
+                // Loop through rows
+                for (let i = 1; i < rows.length; i++) {
+
+                    // Get first column
+                    let td = rows[i].getElementsByTagName("td")[0];
+
+                    if (td) {
+
+                        // Get and clean cell text
+                        let text = cleanText(td.textContent || td.innerText);
+
+                        // Show row if match found
+                        if (text.includes(filter)) {
+                            rows[i].style.display = "";
+                        } 
+                        // Hide row if no match
+                        else {
+                            rows[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+        </script>
+        
+    </body>
+
+</html>

@@ -1,0 +1,113 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Zalando Sans Expanded", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
+    background: 
+        radial-gradient(rgba(8, 47, 97, 0.1) 50%, rgba(1, 11, 37,1) 90%),
+        url('/static/images/logo.png') center top 5rem /50% no-repeat;
+    background-color: rgba(8, 47, 97);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #333;
+}
+
+nav {
+    width: 100%;
+    padding-top: 3rem;
+    padding-right: 6rem;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    gap: 3rem;
+}
+
+
+nav ul li a {
+    text-decoration: none;
+    padding: 0.7rem 4rem;
+    color: white;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.home-container {
+    text-align: center;
+    margin-top: 21rem;
+    margin-bottom: 1rem;
+    padding: 2rem 1rem;
+    border-radius: 15px;
+}
+
+.home-container h1 {
+    font-size: 4.2rem;
+    font-weight: 800;
+    color: rgb(255, 255, 255);
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    transition: font-size 0.5s ease;
+    cursor:default;
+}
+
+.home-container h1:hover{
+    font-size: 4.4rem;
+    text-shadow: 0 0 10px rgba(239, 80, 220, 0.5);
+
+}
+
+.home-container p {
+    font-size: 1rem;
+    color: #e0e0e0;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+    cursor:default;
+}
+
+.button-container {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.btn {
+    text-decoration: none;
+    padding: 1rem 3rem;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.btn-primary {
+    background: radial-gradient(circle at top, #f86891 1%, #ef50dc 1%, #44aef3, #7355fe);
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(239, 80, 220, 0.5);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+}

@@ -1,0 +1,165 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Zalando Sans Expanded", sans-serif;
+    min-height: 100vh;
+    background: radial-gradient(rgba(8, 47, 97) 30%, rgba(1, 11, 37) 100%);
+    justify-content: left;
+}
+
+nav {
+    font-family: "Zalando Sans Expanded", sans-serif;
+    padding: 1.5rem 2rem;
+    justify-content: flex-end;
+    letter-spacing: 1px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+nav ul li a {
+    text-decoration: none;
+    padding: 0.7rem 4rem;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.home-container {
+    font-family: "Zalando Sans Expanded", sans-serif;
+    background: #F0E7D5;
+    padding: 30px 35px;
+    margin-left: 6rem;
+    width: 60rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    text-align: left;
+}
+
+.header{
+    font-family: "Zalando Sans Expanded", sans-serif;
+    margin-bottom: 25px;
+    color: #F0E7D5;
+    margin-left: 8.5rem;
+    margin-top: 1rem;
+}
+
+.pdf-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.pdf-table th,
+.pdf-table td {
+    border: 1px solid rgba(8, 47, 97) ;
+    padding: 12px;
+    text-align: left;
+    font-size: 13px;
+}
+
+.pdf-table th {
+    background-color: #F0E7D5;
+    font-weight: bold;
+}
+
+.open-btn {
+    display: inline-block;
+    padding: 6px 14px;
+    background-color: #667eea;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background 0.2s ease;
+}
+
+.open-btn:hover {
+    background-color: #5a67d8;
+}
+
+.search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    font-size: 14px;
+    pointer-events: none;
+}
+
+.search-box {
+    background: #F0E7D5;
+    width: 100%;
+    padding-left: 42px;
+    padding-right: 12px; 
+    margin-bottom: 15px;
+    border: 1px solid rgba(8, 47, 97) ;
+    border-radius: 6px;
+    font-size: 15px;
+    height: 42px;
+    border: 1px solid #ccc;
+    display: block ;
+
+}
+
+.search-box:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.logout-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 6px;
+    background-color: #e53e3e;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+    background-color: #c53030;
+} 
+
+.normal-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 6px;
+    background-color:#F0E7D5;
+    color: #212842;
+    transition: background-color 0.3s;
+}
+.normal-btn:hover {
+    background-color: #ede1c8;
+} 
+
+.search-container {
+    position: relative;
+    width: 280px;
+}
+
+.search-icon {
+    position: absolute !important;
+
+    left: 12px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+
+    font-size: 15px !important;
+    color: #777;
+
+    pointer-events: none;
+}
