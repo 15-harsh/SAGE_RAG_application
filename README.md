@@ -1,6 +1,6 @@
 # SAGE: A Medical RAG Application
 
-SAGE (Semantic Answer Generation Engine) is a sophisticated Retrieval-Augmented Generation (RAG) application designed for the medical domain. It provides a robust platform for users to ask questions against a knowledge base of medical documents (PDFs) and receive accurate, context-aware answers. The application features an interactive chat interface, bulk question processing from Excel files, and a comprehensive user feedback loop for answer validation and editing.
+SAGE is a Retrieval-Augmented Generation (RAG) application designed for the medical domain. It provides a robust platform for users to ask questions against a knowledge base of medical documents (PDFs) and receive accurate, context-aware answers. The application features an interactive chat interface, bulk question processing from Excel files, and a comprehensive user feedback loop for answer validation and editing.
 
 ## Key Features
 
@@ -20,7 +20,7 @@ SAGE (Semantic Answer Generation Engine) is a sophisticated Retrieval-Augmented 
 *   **Backend:** Python, Flask
 *   **Frontend:** HTML, CSS, JavaScript
 *   **Database:** Microsoft SQL Server (connected via `pyodbc`)
-*   **LLM:** Local execution with `LlamaCpp` (e.g., Llama 3.2 3B)
+*   **LLM:** 'Llama 3.2 3B'
 *   **RAG Framework:** LangChain
 *   **Vector Database:** ChromaDB
 *   **Embedding Model:** `BAAI/bge-small-en-v1.5`
@@ -114,11 +114,24 @@ The application is organized into several key modules that handle specific funct
 6.  **Set Up the Database:**
     - Ensure you have a running instance of Microsoft SQL Server.
     - Create a new database with the name you specified in your `.env` file.
-    - You will need to create the necessary tables. The schemas can be inferred from the SQL queries in `user_auth.py`, `chat_history.py`, `sessions.py`, and `text_extraction.py`. The required tables are: `user_table`, `pdf_main`, `chat_sessions`, and `chat_history`.
+    - You will need to create the necessary tables. The schemas can be inferred from the SQL queries in `user_auth.py`, `chat_history.py`, `sessions.py`, and `text_extraction.py`.
+  
+    - Create the following tables before running the application:
+
+        - **`user_table`**  
+          `user_id`, `user_name`, `email`, `password`
+        
+        - **`chat_sessions`**  
+          `session_id`, `user_email`, `session_name`, `created_at`, `chat_type`
+        
+        - **`chat_history`**  
+          `question_id`, `user_email`, `question`, `answer`, `confidence`, `sources`,  
+          `accepted`, `edited_answer`, `session_id`, `cache_id`
+        
+        - **`pdf_main`**  
+          `pdf_id`, `pdf_name`, `metadata_hash`, `uploaded_at`, `uploaded_by`
 
 7.  **Run the Application:**
-    ```bash
-    flask run
-    ```
+
 
     
